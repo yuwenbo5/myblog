@@ -1,0 +1,100 @@
+{% load static %}
+
+{% include 'blog/header.html' %}
+
+<div id="mainbody">
+  <div class="blogs">
+    <h2 class="t_nav"><a href="/blog/index">首页</a><a href="/blog/list">博客</a></h2>
+    <ul class="bloglist">
+    {% if article_list %}
+    {% for article_item in article_list %}
+      <li>
+        <div class="arrow_box">
+          <div class="ti"></div>
+          <!--三角形-->
+          <div class="ci"></div>
+          <!--圆形-->
+          <h2 class="title"><a href="/blog/article/?aid={{ article_item.id }}">{{ article_item.title }}</a></h2>
+          <ul class="textinfo">
+            <a href="/blog/article"><img src="{{ article_item.logo }}"></a>
+            <p>{{ article_item.desc }}</p>
+          </ul>
+          <ul class="details">
+            <li class="likes"><a href="#">{{ article_item.likes }}</a></li>
+            <li class="comments"><a href="#">{{ article_item.comments }}</a></li>
+            <li class="icon-time"><a href="#">{{ article_item.operate_time }}</a></li>
+          </ul>
+        </div>
+        <!--arrow_box end-->
+      </li>
+    {% endfor %}
+      <li style="color:#ccc;font-size:12px;font-family:'微软雅黑';">
+        <span class="step-links">
+            {% if article_list.has_previous %}
+                <a href="?page={{ article_list.previous_page_number }}">上一页</a>
+            {% endif %}
+
+            <span class="current" style="margin:0 5px;">
+                第{{ article_list.number }}页， 共{{ article_list.paginator.num_pages }}页
+            </span>
+
+            {% if article_list.has_next %}
+                <a href="?page={{ article_list.next_page_number }}">下一页</a>
+            {% endif %}
+        </span>
+      </li>
+    {% else %}
+      <li>
+        <div class="arrow_box">
+          <div class="ti"></div>
+          <!--三角形-->
+          <div class="ci"></div>
+          <!--圆形-->
+          <span style="color:#fff;font-size:14px;font-weight:bold;padding:50px 0;display:block;text-align:center;">抱歉！<br/>暂时没有相关的内容！</span>
+        </div>
+        <!--arrow_box end-->
+      </li>
+    {% endif %}
+    </ul>
+    <!--bloglist end-->
+
+    <aside>
+      <div class="search">
+        <form class="searchform" method="get" action="#">
+          <input type="text" name="s" value="Search" onfocus="this.value=''" onblur="this.value='Search'">
+        </form>
+      </div>
+      <div class="sunnav">
+        <h2>博文分类</h2>
+        <ol>
+          {% for cate_item in cate %}
+            <li><a style="display:block;" href="?cid={{ cate_item.id }}" title="{{ cate_item.cate_desc }}">{{ cate_item.cate_name }}</a></li>
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="clicks">
+        <h2>文献列表</h2>
+        <ol>
+        {% for document in documents %}
+            <li><span><a href="{{ document.file_path }}" title="{{ document.desc }}">{{ document.name }}</a></span></li>
+        {% endfor %}
+        </ol>
+      </div>
+      <div class="toppic">
+        <h2>网页收藏</h2>
+        <ul>
+        {% for colletion_item in collections %}
+          <li><a href="{{ colletion_item.url }}">{{ colletion_item.title }}</a></li>
+        {% endfor %}
+        </ul>
+      </div>
+    </aside>
+  </div>
+  <!--blogs end--> 
+</div>
+<!--mainbody end-->
+
+{% include 'blog/footer.html' %}
+
+</body>
+</html>

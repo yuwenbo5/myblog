@@ -1,0 +1,132 @@
+{% load static %}
+
+{% include 'administrator/header.html' %}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder"> 友情链接</strong></div>
+  <div class="padding border-bottom">
+  <a class="button border-yellow" href=""><span class="icon-plus-square-o"></span> 添加链接</a>
+  </div>
+  <table class="table table-hover text-center">
+    <tr>
+      <th width="5%">ID</th>
+      <th>标题</th>
+      <th>描述</th>
+      <th>url</th>
+      <th>状态</th>
+      <th>排序</th>
+      <th width="250">操作</th>
+    </tr>
+    {% for link in links %}
+    <tr>
+      <td>{{ link.id }}</td>
+      <td>{{ link.link_name }}</td>
+      <td>{{ link.link_desc }}</td>
+      <td><a href="{{ link.link_url }}" target="_blank">{{ link.link_url }}</a></td>
+      <td>{{ link.link_status }}</td>
+      <td>{{ link.link_sort }}</td>
+      <td>
+      <div class="button-group">
+      <a type="button" class="button border-main" href="/administrator/link/?id={{ link.id }}"><span class="icon-edit"></span>修改</a>
+       <a class="button border-red" href="javascript:void(0)" onclick="return del({{ link.id }},'link')"><span class="icon-trash-o"></span> 删除</a>
+      </div>
+      </td>
+    </tr>
+    {% endfor %}
+      <tr>
+        <td colspan="8">
+            <div class="pagelist">
+            {% if links.has_previous %}
+            <a href="?page={{ links.previous_page_number }}">上一页</a>
+            {% endif %}
+            <span class="current" style="margin:0 5px;">
+                {{ links.number }}
+            </span>
+            <span style="margin:0 5px;">
+                共{{ links.paginator.num_pages }}页
+            </span>
+            {% if links.has_next %}
+                <a href="?page={{ links.next_page_number }}">下一页</a>
+            {% endif %}
+            <a href="?page={{ links.paginator.num_pages }}">尾页</a>
+            </div>
+        </td>
+      </tr>
+  </table>
+</div>
+<script>
+
+</script>
+<div class="panel admin-panel margin-top">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>增加(更新)链接</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% if link.id %}
+      <input type="hidden" name="id" value="{{ link.id }}" />
+      <input type="hidden" name="actionId" value="update"/>
+      {% else %}
+      <input type="hidden" name="actionId" value="add" />
+      {% endif %}
+      <div class="form-group">
+        <div class="label">
+          <label>标题：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="title" value="{{ link.link_name }}" data-validate="required:请输入标题" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>描述：</label>
+        </div>
+        <div class="field">
+          <textarea type="text" class="input" name="s_desc" style="height:100px;" >{{ link.link_desc }}</textarea>
+        </div>
+     </div>
+
+     <div class="form-group">
+        <div class="label">
+          <label>链接url：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="url" id="image1" value="{{ link.link_url }}"  style="float:left;">
+          <div class="tipss"></div>
+        </div>
+     </div>
+    <div class="form-group">
+      <div class="label">
+        <label>状态：</label>
+      </div>
+      <div class="field" style="padding-top:8px;">
+        {% if link.link_status %}
+        可用 <input id="ishome"  type="radio" {% ifequal link.link_status '1' %}checked{% endifequal %} name="status" value="1"/>
+        不可用 <input id="isvouch"  type="radio" {% ifequal link.link_status '0' %}checked{% endifequal %} name="status" value="0"/>
+        {% else %}
+        可用 <input id="ishome"  type="radio" name="status" value="1"/>
+        不可用 <input id="isvouch"  type="radio" checked name="status" value="0"/>
+        {% endif %}
+      </div>
+    </div>
+     <div class="form-group">
+        <div class="label">
+          <label>排序：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="sort" value="{{ link.link_sort }}"  data-validate="number:排序必须为数字" />
+          <div class="tips"></div>
+        </div>
+      </div>
+     <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,132 @@
+{% load static %}
+
+{% include 'administrator/header.html' %}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 网站信息</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="/administrator/setinfo/" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <div class="label">
+          <label>首页标题：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="home_title" value="{{ home_title.value }}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>首页图片：</label>
+        </div>
+        <div class="field">
+          <img style="float:left;" width="100" height="50" src="{{ banner_img.value }}" alt="无图"/>
+          <input type="file" class="button bg-blue margin-left" name="img" id="image1" value="+ 浏览上传"  style="float:left;">
+          <div class="tipss">图片尺寸：614*304</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>首页描述：</label>
+        </div>
+        <div class="field">
+          <textarea name="content" style="height:100px;">{{ home_desc.value }}</textarea>
+          <div class="tips">不超过100字</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>博主网名：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="s_name" value="{{ nick_name.value }}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>博主职业：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="s_400" value="{{ my_job.value }}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>手机：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="s_phone" value="{{ my_phone.value }}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>QQ：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="s_qq" value="{{ qq.value }}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>Email：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="s_email" value="{{ my_email.value }}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>微信：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="s_fax" value="{{ weixin.value }}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="label">
+          <label>微博：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="s_qqu" value="{{ weibo.value }}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>网站关键字：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" name="skeywords" style="height:60px">{{ web_keywords.value }}</textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>网站描述：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" name="sdescription">{{ web_desc.value }}</textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+{% load static %}
+
+{% include 'administrator/header.html' %}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加博客</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ article.id }}"/>
+      <div class="form-group">
+        <div class="label">
+          <label>标题：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" style="width:500px;" value="{{ article.title }}" name="title" data-validate="required:请输入标题" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>图片：</label>
+        </div>
+        <div class="field">
+          <img style="float:left;" width="100" height="50" src="{{ article.logo }}" alt="无图"/>
+          <input type="file" class="button bg-blue margin-left" name="logo" id="image1" value="+ 浏览上传"  style="float:left;">
+          <div class="tipss">图片尺寸：500*500</div>
+        </div>
+      </div>
+        <div class="form-group">
+          <div class="label">
+            <label>分类：</label>
+          </div>
+          <div class="field">
+            <select name="cid" class="input w50">
+              <option value="">请选择分类</option>
+              {% for cate_item in cate %}
+                {% if article.cate_id == cate_item.id %}
+                <option value="{{ cate_item.id }}" selected>{{ cate_item.cate_name }}</option>
+                {% else %}
+                <option value="{{ cate_item.id }}">{{ cate_item.cate_name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+            <div class="tips"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="label">
+            <label>其他属性：</label>
+          </div>
+          <div class="field" style="padding-top:8px;">
+            {% if article.type %}
+            首页 <input id="ishome"  type="radio" {% ifequal article.type 'home' %}checked{% endifequal %} name="type" value="home"/>
+            列表页 <input id="isvouch"  type="radio" {% ifequal article.type 'normal' %}checked{% endifequal %} name="type" value="normal"/>
+            {% else %}
+            首页 <input id="ishome"  type="radio" name="type" value="home"/>
+            列表页 <input id="isvouch"  type="radio" checked name="type" value="normal"/>
+            {% endif %}
+          </div>
+        </div>
+      <div class="form-group">
+        <div class="label">
+          <label>描述：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" name="note" style=" height:90px;">{{ article.desc }}</textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>内容：</label>
+        </div>
+        <div class="field">
+          <textarea name="content" class="input" style="height:650px; border:1px solid #ddd;">{{ article.content }}</textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>排序：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="sort" value="0"  data-validate="number:排序必须为数字" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>作者：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="author" value="{{ request.session.user_id }}"  />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+    var editor;
+    KindEditor.ready(function(K) {
+        editor = K.create('textarea[name="content"]', {
+            uploadJson: '/administrator/upload_editor/',
+            allowImageRemote: true,  // 是否允许远程上传
+            allowImageUpload: true,  // 是否允许本地上传
+            allowFileManager: true,  // 图片空间，文件预览功能
+            extraFileUploadParams: { // CSRF限制，提交csrf
+                csrfmiddlewaretoken: "{{ csrf_token }}"
+            },
+            filePostName: 'blogEditor'   // 设置文件发送的name值，方便后台获取
+        });
+        K('input[name=getHtml]').click(function(e) {
+            alert(editor.html());
+        });
+        K('input[name=isEmpty]').click(function(e) {
+            alert(editor.isEmpty());
+        });
+        K('input[name=getText]').click(function(e) {
+            alert(editor.text());
+        });
+        K('input[name=selectedHtml]').click(function(e) {
+            alert(editor.selectedHtml());
+        });
+        K('input[name=setHtml]').click(function(e) {
+            editor.html('<h3>Hello KindEditor</h3>');
+        });
+        K('input[name=setText]').click(function(e) {
+            editor.text('<h3>Hello KindEditor</h3>');
+        });
+        K('input[name=insertHtml]').click(function(e) {
+            editor.insertHtml('<strong>插入HTML</strong>');
+        });
+        K('input[name=appendHtml]').click(function(e) {
+            editor.appendHtml('<strong>添加HTML</strong>');
+        });
+        K('input[name=clear]').click(function(e) {
+            editor.html('');
+        });
+    });
+</script>
+</body>
+</html>

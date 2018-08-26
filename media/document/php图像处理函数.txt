@@ -1,0 +1,13 @@
+1、1）创建指定大小的调色板的画布，通常支持256色语法：imagecreate(width,height);//成功返回图像资源
+
+2、imagecolorallocate(画布资源,red,green,blue);//grb颜色值0-255
+
+3、绘制一个像素点：imagesetpixel(图像资源，X，Y，点颜色)；
+
+4、绘制一条直线：imageline(图像资源，X1,Y1,X2,Y2,线颜色);
+
+5、绘制一个矩形：imagerectangle(图像资源，X1,Y1,X2,Y2,线条颜色)；
+
+6、imagegif(图像资源 [,文件名]);
+
+7、imagedestroy(图像资源);

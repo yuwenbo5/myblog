@@ -1,0 +1,58 @@
+{% load static %}
+
+{% include 'blog/header.html' %}
+
+<div id="mainbody">
+  <div class="info">
+    <div id="index_view">
+      <h2 class="t_nav"><a href="/blog/index">首页</a><a href="/blog/contact">联系我</a></h2>
+      <h1 class="c_titile">{{ about.name }}</h1>
+      <ul>
+        <p><img src="{{ about.img.url }}"></p>
+        <p>
+            {{ about.value }}
+        </p>
+      </ul>
+      <div class="share">
+          <hr/>
+      </div>
+    </div>
+    <aside>
+      <div class="sunnav" style="color:#aaa;">
+        <h1>我的名片</h1>
+        <p>网名：{{ nick_name.value }}</p>
+        <p>职业：{{ my_job.value }}</p>
+        <p>电话：{{ my_phone.value }}</p>
+        <p>Email：{{ my_email.value }}</p>
+      </div>
+      <div class="sunnav">
+        <h2>博文分类</h2>
+        <ol>
+          {% for cate_item in cate %}
+            <li><a style="display:block;" href="/blog/list/?cid={{ cate_item.id }}" title="{{ cate_item.cate_desc }}">{{ cate_item.cate_name }}</a></li>
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="viny">
+        <dl>
+          <dt class="art"><img src="{% static '/images/artwork.png' %}" alt="专辑"></dt>
+          <dd class="icon-song"><span></span>南方姑娘</dd>
+          <dd class="icon-artist"><span></span>歌手：赵雷</dd>
+          <dd class="icon-album"><span></span>所属专辑：《赵小雷》</dd>
+          <dd class="icon-like"><span></span><a href="/">喜欢</a></dd>
+          <dd class="music">
+            <audio src="{% static '/images/nf.mp3' %}" controls></audio>
+          </dd>
+          <!--也可以添加loop属性 音频加载到末尾时，会重新播放-->
+        </dl>
+      </div>
+    </aside>
+  </div>
+  <!--blogs end--> 
+</div>
+<!--mainbody end-->
+
+{% include 'blog/footer.html' %}
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+{% load static %}
+
+{% include 'administrator/header.html' %}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder"> 收藏列表</strong></div>
+  <div class="padding border-bottom">
+  <a class="button border-yellow" href=""><span class="icon-plus-square-o"></span> 添加收藏</a>
+  </div>
+  <table class="table table-hover text-center">
+    <tr>
+      <th width="5%">ID</th>
+      <th>标题</th>
+      <th width="20%">描述</th>
+      <th width="35%">url</th>
+      <th width="250">操作</th>
+    </tr>
+    {% for collection in collections %}
+    <tr>
+      <td>{{ collection.id }}</td>
+      <td>{{ collection.title }}</td>
+      <td>{{ collection.desc }}</td>
+      <td><a href="{{ collection.url }}">{{ collection.url }}</a></td>
+      <td>
+      <div class="button-group">
+      <a type="button" class="button border-main" href="/administrator/collection/?id={{ collection.id }}"><span class="icon-edit"></span>修改</a>
+       <a class="button border-red" href="javascript:void(0)" onclick="return del({{ collection.id }},'collection')"><span class="icon-trash-o"></span> 删除</a>
+      </div>
+      </td>
+    </tr>
+    {% endfor %}
+      <tr>
+        <td colspan="8">
+            <div class="pagelist">
+            {% if collections.has_previous %}
+            <a href="?page={{ collections.previous_page_number }}">上一页</a>
+            {% endif %}
+            <span class="current" style="margin:0 5px;">
+                {{ collections.number }}
+            </span>
+            <span style="margin:0 5px;">
+                共{{ collections.paginator.num_pages }}页
+            </span>
+            {% if collections.has_next %}
+                <a href="?page={{ collections.next_page_number }}">下一页</a>
+            {% endif %}
+            <a href="?page={{ collections.paginator.num_pages }}">尾页</a>
+            </div>
+        </td>
+      </tr>
+  </table>
+</div>
+<script>
+
+</script>
+<div class="panel admin-panel margin-top">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>增加(更新)收藏</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% if collection.id %}
+      <input type="hidden" name="id" value="{{ collection.id }}" />
+      <input type="hidden" name="actionId" value="update"/>
+      {% else %}
+      <input type="hidden" name="actionId" value="add" />
+      {% endif %}
+      <div class="form-group">
+        <div class="label">
+          <label>标题：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="title" value="{{ collection.title }}" data-validate="required:请输入标题" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>描述：</label>
+        </div>
+        <div class="field">
+          <textarea type="text" class="input" name="s_desc" style="height:100px;" >{{ collection.desc }}</textarea>
+        </div>
+     </div>
+
+     <div class="form-group">
+        <div class="label">
+          <label>网址url：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="url" id="image1" value="{{ collection.url }}"  style="float:left;">
+          <div class="tipss"></div>
+        </div>
+     </div>
+     <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body></html>

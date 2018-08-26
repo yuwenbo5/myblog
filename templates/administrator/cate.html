@@ -1,0 +1,89 @@
+{% load static %}
+
+{% include 'administrator/header.html' %}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong></div>
+  <div class="padding border-bottom">
+    <button type="button" class="button border-yellow" onclick="window.location.href='#add'"><span class="icon-plus-square-o"></span> 添加分类</button>
+  </div>
+  <table class="table table-hover text-center">
+    <tr>
+      <th width="5%">ID</th>
+      <th width="15%">分类名称</th>
+      <th width="20%">分类描述</th>
+      <th width="8%">排序</th>
+      <th width="10%">更新时间</th>
+      <th width="10%">操作</th>
+    </tr>
+    {% for cate in cate_list %}
+    <tr>
+      <td>{{ cate.id }}</td>
+      <td>{{ cate.cate_name }}</td>
+      <td>{{ cate.cate_desc }}</td>
+      <td>{{ cate.sort }}</td>
+      <td>{{ cate.operate_time }}</td>
+      <td><div class="button-group"> <a class="button border-main" href="/administrator/cateedit/?id={{ cate.id }}"><span class="icon-edit"></span> 修改</a>
+          <a class="button border-red" href="javascript:void(0)" onclick="return del({{ cate.id }},'cate')"><span class="icon-trash-o"></span> 删除</a> </div></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+<script type="text/javascript">
+
+</script>
+<div class="panel admin-panel margin-top">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加内容</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="">
+      {% csrf_token %}
+      <div class="form-group">
+        <div class="label">
+          <label>上级分类：</label>
+        </div>
+        <div class="field">
+          <select name="pid" class="input w50" disabled>
+            <option value="">请选择分类</option>
+          </select>
+          <div class="tips">暂不启用</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>分类标题：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="title" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>分类描述：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input" name="s_desc"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>排序：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="sort" value="0"  data-validate="number:排序必须为数字" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

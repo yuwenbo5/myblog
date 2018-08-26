@@ -1,0 +1,90 @@
+{% load static %}
+
+{% include 'blog/header.html' %}
+
+<div id="mainbody">
+  <div class="info">
+    <figure> <img src="{{ banner_img.value }}"  alt="Panama Hat">
+      <figcaption><strong>{{ home_title.value }}</strong>
+          {{ home_desc.value }}
+      </figcaption>
+    </figure>
+    <div class="card">
+      <h1>我的名片</h1>
+      <p>网名：{{ nick_name.value }}</p>
+      <p>职业：{{ my_job.value }}</p>
+      <p>电话：{{ my_phone.value }}</p>
+      <p>Email：{{ my_email.value }}</p>
+      <ul class="linkmore">
+        <li><a href="/blog/contact/?type=message" class="talk" title="给我留言"></a></li>
+        <li><a href="javascript:;" onclick="showAddress();" class="address" title="联系地址"></a></li>
+        <li><a href="/blog/contact/?type=write" class="email" title="给我写信"></a></li>
+        <li><a href="javascript:alert('暂未开放');" class="photos" title="生活照片"></a></li>
+        <li><a href="javascript:alert('功能优化中');" class="heart" title="关注我"></a></li>
+      </ul>
+    </div>
+  </div>
+  <!--info end-->
+  <div class="blogs">
+    <ul class="bloglist">
+    {% for article_item in new_article_list %}
+      <li>
+        <div class="arrow_box">
+          <div class="ti"></div>
+          <!--三角形-->
+          <div class="ci"></div>
+          <!--圆形-->
+          <h2 class="title"><a href="/blog/article">{{ article_item.title }}</a></h2>
+          <ul class="textinfo">
+            <a href="/blog/article"><img src="{{ article_item.logo }}"></a>
+            <p>{{ article_item.desc }}</p>
+          </ul>
+          <ul class="details">
+            <li class="likes"><a href="#">10</a></li>
+            <li class="comments"><a href="#">34</a></li>
+            <li class="icon-time"><a href="#">{{ article_item.operate_time }}</a></li>
+          </ul>
+        </div>
+        <!--arrow_box end--> 
+      </li>
+    {% endfor %}
+    </ul>
+    <!--bloglist end-->
+    <aside>
+      <div class="sunnav">
+        <h2>博文分类</h2>
+        <ol>
+          {% for cate_item in cate %}
+            <li><a style="display:block;" href="/blog/list/?cid={{ cate_item.id }}" title="{{ cate_item.cate_desc }}">{{ cate_item.cate_name }}</a></li>
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="toppic">
+        <h2>网页收藏</h2>
+        <ul>
+        {% for colletion_item in collections %}
+          <li><a href="{{ colletion_item.url }}">{{ colletion_item.title }}</a></li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="viny">
+        <dl>
+          <dt class="art"><img src="{% static '/images/artwork.png' %}" alt="专辑"></dt>
+          <dd class="icon-song"><span></span>南方姑娘</dd>
+          <dd class="icon-artist"><span></span>歌手：赵雷</dd>
+          <dd class="icon-album"><span></span>所属专辑：《赵小雷》</dd>
+          <dd class="icon-like"><span></span><a href="/">喜欢</a></dd>
+          <dd class="music">
+            <audio src="{% static '/images/nf.mp3' %}" controls></audio>
+          </dd>
+          <!--也可以添加loop属性 音频加载到末尾时，会重新播放-->
+        </dl>
+      </div>
+    </aside>
+  </div>
+  <!--blogs end--> 
+</div>
+<!--mainbody end-->
+{% include 'blog/footer.html' %}
+</body>
+</html>

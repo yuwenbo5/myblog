@@ -1,0 +1,65 @@
+{% load static %}
+
+{% include 'administrator/header.html' %}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder"> 相簿列表</strong></div>
+  <div class="padding border-bottom">  
+  <a class="button border-yellow" href=""><span class="icon-plus-square-o"></span> 新建相簿</a>
+  </div>
+  <ul class="photo_list">
+      {% if photos %}
+      {% for photo in photos %}
+      <li class="photo">
+        <a title="{{ photo.desc }}" class="img_a" href="/administrator/picture/?pid={{ photo.id }}"><img src="{{ photo.logo }}" alt="无图"/></a>
+        <span class="photo_name">
+          <a title="{{ photo.desc }}" style="color:#fff;" href="/administrator/picture/?pid={{ photo.id }}">{{ photo.name }}</a>
+          <a href="/administrator/photos/?id={{ photo.id }}" title="修改" class="left"><span class="icon-edit"></span></a>
+          <a href="javascript:;" onclick="del({{ photo.id }},'photos');" class="right" title="删除"><span class="icon-trash-o"></span></a>
+        </span>
+      </li>
+      {% endfor %}
+      {% else %}
+      <li class="photo"><a class="button border-yellow" href=""><span class="icon-plus-square-o"></span> 新建相簿</a></li>
+      {% endif %}
+  </ul>
+</div>
+<script>
+
+</script>
+<div class="panel admin-panel margin-top">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>新建(修改)相簿</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="/administrator/photos/">
+      <input type="hidden" name="id"  value="{{ photo.id }}" />
+        {% csrf_token %}
+      <div class="form-group">
+        <div class="label">
+          <label>相簿名称：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="title" value="{{ photo.name }}" data-validate="required:请输入标题" />
+          <div class="tips"></div>
+        </div>
+      </div> 
+      <div class="form-group">
+        <div class="label">
+          <label>相簿描述：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="desc" value="{{ photo.desc }}" />
+          <div class="tips"></div>
+        </div>
+      </div>
+     <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body></html>

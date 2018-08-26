@@ -1,0 +1,103 @@
+{% load static %}
+
+{% include 'administrator/header.html' %}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head"><strong class="icon-reorder"> 【{{ photo.name }}】图片列表</strong></div>
+  <div class="padding border-bottom">
+  </div>
+  <ul class="photo_list" style="height:330px;">
+      {% if pictures %}
+      {% for picture in pictures %}
+      <li class="photo">
+        <a title="{{ picture.desc }}" class="img_a" href="javascript:;" onclick="showBigImg(this);"><img src="{{ picture.img }}" num="{{ picture.num }}" alt="无图"/></a>
+        <span class="photo_name">
+          <a title="{{ picture.desc }}" style="color:#fff;font-size:12px;" href="">{{ picture.name|slice:"12" }}</a>
+          <a href="javascript:;" onclick="return del({{ picture.id }},'picture');" class="right" title="删除"><span class="icon-trash-o"></span></a>
+        </span>
+      </li>
+      {% endfor %}
+      {% else %}
+      <li class="photo"><a class="button border-yellow" href=""><span class="icon-plus-square-o"></span> 上传照片</a></li>
+      {% endif %}
+  </ul>
+</div>
+<div id='layer' onclick="hideBigImg();" style='width:150%;height:150%;display:none;position:fixed;top:0;_position:absolute;_bottom:auto;_top:expression(eval(document.documentElement.scrollTop));z-index:99;background:#000;opacity:0.8;filter:alpha(opacity=80);'>
+</div>
+<div id='picture_box' style='width:600px;height:500px;display:none;text-align:center;margin:auto 0;background:#333;position:fixed;top:10%;left:45%;_position:absolute;_top:10%;margin-left:-260px;z-index:999;'>
+    <span style="float:left;width:50px;height:500px;line-height:500px;background:#00aaee;color:#fff;cursor:pointer;" title="上一张" onclick="prevImg();"><<</span>
+    <img style="float:left;width:500px;height:500px;" num="" src=""/>
+    <span style="float:right;width:50px;height:500px;line-height:500px;background:#00aaee;color:#fff;cursor:pointer;" title="下一张" onclick="nextImg();">>></span>
+</div>
+<script>
+    function showBigImg(obj){
+        $("#layer").css('display','block');
+        $("#picture_box").css('display','block');
+
+        var src = $(obj).find('img').attr('src');
+        var num = $(obj).find('img').attr('num');
+        $("#picture_box").find('img').attr('src',src);
+        $("#picture_box").find('img').attr('num',num);
+    }
+    function hideBigImg(){
+        $("#picture_box").find('img').attr('src','');
+        $("#picture_box").find('img').attr('num','');
+
+        $("#layer").css('display','none');
+        $("#picture_box").css('display','none');
+    }
+    function prevImg(){
+        var num = $("#picture_box").find('img').attr('num');
+        if(num <= 1){
+            alert('已经是第一张照片');
+            return false;
+        }
+
+        num --;
+
+        var src = $("li.photo").eq(num-1).find('a.img_a').find('img').attr('src');
+        $("#picture_box").find('img').attr('src',src);
+        $("#picture_box").find('img').attr('num',num);
+    }
+
+    function nextImg(){
+        var num = $("#picture_box").find('img').attr('num');
+        if(num >= $("li.photo").length){
+            alert('已经是最后一张照片');
+            return false;
+        }
+
+        num ++;
+
+        var src = $("li.photo").eq(num-1).find('a.img_a').find('img').attr('src');
+        $("#picture_box").find('img').attr('src',src);
+        $("#picture_box").find('img').attr('num',num);
+    }
+</script>
+<div class="panel admin-panel margin-top">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>上传图片</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="/administrator/picture/" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="pid"  value="{{ photo.id }}" />
+      <div class="form-group">
+        <div class="label">
+          <label>图片：</label>
+        </div>
+        <div class="field">
+          <input type="file" class="button bg-blue margin-left" name="img" id="image1" value="+ 浏览上传" multiple="multiple" style="float:left;">
+          <div class="tipss"></div>
+        </div>
+      </div>
+     <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 上传</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body></html>
