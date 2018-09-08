@@ -34,9 +34,9 @@
           <!--三角形-->
           <div class="ci"></div>
           <!--圆形-->
-          <h2 class="title"><a href="/blog/article">{{ article_item.title }}</a></h2>
+          <h2 class="title"><a href="/blog/article/?aid={{ article_item.id }}">{{ article_item.title }}</a></h2>
           <ul class="textinfo">
-            <a href="/blog/article"><img src="{{ article_item.logo }}"></a>
+            <a href="/blog/article/?aid={{ article_item.id }}"><img src="{{ article_item.logo }}"></a>
             <p>{{ article_item.desc }}</p>
           </ul>
           <ul class="details">
