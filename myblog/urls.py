@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+    url('/?', include('blog.urls')),
     url(r'^administrator/', include('administrator.urls')),
     url(r'^blog/', include('blog.urls')),
 ]
